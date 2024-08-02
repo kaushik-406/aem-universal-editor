@@ -1,0 +1,12 @@
+.*
+*.md
+karma.config.js
+LICENSE
+package.json
+package-lock.json
+test/*
+styles/tailwind.css
+styles/proxy-tailwind.css
+templates/**/*-dev.css
+worker/*
+*.toml

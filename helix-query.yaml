@@ -1,0 +1,81 @@
+version: 1
+indices:
+  articles:
+    include:
+      - /us/en/blog/**
+      - /us/en/news/**
+      - /us/en/library/**
+      - /us/en/application/**
+      - /us/en/info/**
+    target: /us/en/article-index.json
+    properties:
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+      title:
+        select: main h1
+        value: textContent(el)
+      navTitle:
+        select: head > meta[name="navtitle"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: match(attribute(el, "content"), "^(https?:\/\/.*?(danaher.com))+(.*)|^(.*)")
+      topics:
+        select: head > meta[name="topics"]
+        value: attribute(el, "content")
+      readingTime:
+        select: head > meta[name="readingtime"]
+        value: attribute(el, "content")
+      publishDate:
+        select: head > meta[name="publishdate"]
+        value: parseTimestamp(attribute(el, "content"), "ddd, DD MMM YYYY hh:mm:ss GMT")
+      type:
+        select: head > meta[name="template"]
+        value: attribute(el, "content")
+      brand:
+        select: head > meta[name="brand"]
+        value: attribute(el, "content")
+  products:
+    include:
+      - /us/en/products/**
+    exclude:
+      - /us/en/products/family/**
+      - /us/en/products/sku/**
+    target: /us/en/products-index.json
+    properties:
+      title:
+        select: main h1
+        value: textContent(el)
+      description:
+        select: main .banner h2
+        value: textContent(el)
+      image:
+        select: head > meta[property="og:image"]
+        value: match(attribute(el, "content"), "^(https?:\/\/.*?(danaher.com))+(.*)|^(.*)")
+      brand:
+        select: head > meta[name="brand"]
+        value: attribute(el, "content")
+      type:
+        select: head > meta[name="template"]
+        value: attribute(el, "content")
+      fullCategory:
+        select: head > meta[name="fullcategory"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+  solutions:
+    include:
+      - /us/en/solutions/**
+    target: /us/en/solutions-index.json
+    properties:
+      title:
+        select: main .banner h1, main div:nth-child(4) h1
+        value: textContent(el)
+      solution:
+        select: head > meta[name="solution"]
+        value: attribute(el, "content")
